@@ -1,5 +1,10 @@
-
 #!/bin/bash
+
+# nginxPath 
+NPATH=$1
+# bucketPath
+BPATH=$2
+
 sudo apt update -y
 sudo apt upgrade -y
 
@@ -8,27 +13,25 @@ sudo apt install nginx -y
 
 sudo ufw allow 'Nginx HTTP'
 
-sudo mkdir -p /var/www/TsWeb3AC-Dom/html
+sudo mkdir -p /var/www/$NPATH/html
 
-sudo aws s3 sync s3://proyecto-samuel/TsWeb3AC /var/www/TsWeb3AC-Dom/html.
+sudo aws s3 sync s3://proyecto-samuel/$BPATH /var/www/$NPATH/html/.
 
-sudo chown -R $USER:$USER /var/www/TsWeb3AC-Dom/html
+sudo chown -R $USER:$USER /var/www/$NPATH/html
 
-sudo su
 sudo echo 'server {
         listen 80;
         listen [::]:80;
 
-        root /var/www/TsWeb3AC-Dom/html;
+        root /var/www/'$NPATH'/html;
         index index.html index.htm index.nginx-debian.html;
 
-        server_name TsWeb3AC-Dom www.TsWeb3AC-Dom;
+        server_name '$NPATH' www.TsWeb3AC-Dom; # corregir esto aun
 
         location / {
                 try_files $uri $uri/ =404;
         }
-}' > /etc/nginx/sites-available/TsWeb3AC-Dom
-exit
+}' > test.txt #/etc/nginx/sites-available/TsWeb3AC-Dom
 
 sudo ln -s /etc/nginx/sites-available/TsWeb3AC-Dom /etc/nginx/sites-enabled/
 
