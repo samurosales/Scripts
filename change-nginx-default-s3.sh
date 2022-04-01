@@ -18,4 +18,4 @@ sudo systemctl start nginx
 
 # /usr/share/nginx/html
 sudo mv /usr/share/nginx/html /usr/share/nginx/html.bak
-sudo aws s3 sync s3://proyecto-samuel/$BPATH /usr/share/nginx/html/.
+sudo aws s3 sync s3://$BPATH /usr/share/nginx/html/.
